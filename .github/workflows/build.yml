@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -27,9 +30,7 @@ jobs:
           sed -i "s/mod_version=.*/mod_version=$VER/" gradle.properties
       
       - name: 构建
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+        run: gradle build
       
       - name: 发布Release
         if: startsWith(github.ref, 'refs/tags/')
